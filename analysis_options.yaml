@@ -9,3 +9,4 @@ linter:
     library_private_types_in_public_api: false
     constant_identifier_names: false
     library_prefixes: false
+    avoid_print: false

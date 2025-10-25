@@ -309,6 +309,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var routeLists = routers.keys.toList();
+    print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title!),

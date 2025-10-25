@@ -93,35 +93,36 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
         : BookRoutePath.details(books.indexOf(_selectedBook));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: navigatorKey,
-      pages: [
-        MaterialPage(
-          key: const ValueKey('BooksListPage'),
-          child: BooksListScreen(
-            books: books,
-            onTapped: _handleBookTapped,
-          ),
-          onPopInvoked: (didPop, result) {
-            if (!didPop) {
-              return;
-            }
-
-            // Update the list of pages by setting _selectedBook to null
-            _selectedBook = null;
-            show404 = false;
-            notifyListeners();
-          },
+@override
+Widget build(BuildContext context) {
+  return Navigator(
+    key: navigatorKey,
+    pages: [
+      MaterialPage(
+        key: const ValueKey('BooksListPage'),
+        child: BooksListScreen(
+          books: books,
+          onTapped: _handleBookTapped,
         ),
-        if (show404)
-          const MaterialPage(key: ValueKey('UnknownPage'), child: UnknownScreen())
-        else if (_selectedBook != null)
-          BookDetailsPage(book: _selectedBook)
-      ],
-    );
-  }
+      ),
+      if (show404)
+        const MaterialPage(key: ValueKey('UnknownPage'), child: UnknownScreen())
+      else if (_selectedBook != null)
+        BookDetailsPage(book: _selectedBook)
+    ],
+    onPopPage: (route, result) {
+      if (!route.didPop(result)) {
+        return false;
+      }
+
+      // Update the list of pages by setting _selectedBook to null
+      _selectedBook = null;
+      show404 = false;
+      notifyListeners();
+      return true;
+    },
+  );
+}
 
   @override
   Future<void> setNewRoutePath(BookRoutePath configuration) async {

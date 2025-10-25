@@ -125,7 +125,7 @@ dependencies:
   flutter_swiper_view: 1.1.8
   animated_text_kit: 4.2.1
   window_location_href: 1.0.0
-  rive: 0.13.20
+  rive: 0.13.4
   animations: 2.0.4
   flutter_animate: ^1.0.0
   polygon: ^0.1.0

@@ -158,6 +158,11 @@ import 'package:gsy_flutter_demo/widget/anim_switch_layout_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/vp_list_demo_page.dart'
     deferred as vp_list_demo_page;
 
+import 'package:gsy_flutter_demo/widget/dynamic_height_category_list.dart'
+    deferred as dynamic_vp_list_demo_page;
+
+
+
 import 'package:gsy_flutter_demo/widget/card_perspective_demo_page.dart'
     deferred as card_perspective_demo_page;
 
@@ -836,10 +841,20 @@ Map<String, WidgetBuilder> routers = {
       return vp_list_demo_page.ListViewLinkListView();
     });
   },
-  "左侧分类右侧详情联动列表": (context) {
+  "左侧分类右侧详情联动列表(固定高度)": (context) {
     ///左侧分类列表和右侧详情列表联动，支持滚动回调
     return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
       return vp_list_demo_page.CategoryDetailListView(
+        onCategoryChanged: (index, name) {
+          print('当前分类: $name (索引: $index)');
+        },
+      );
+    });
+  },
+  "左侧分类右侧详情联动列表(动态高度)": (context) {
+    ///左侧分类列表和右侧详情列表联动，支持滚动回调
+    return ContainerAsyncRouterPage(dynamic_vp_list_demo_page.loadLibrary(), (context) {
+      return dynamic_vp_list_demo_page.DynamicHeightCategoryListView(
         onCategoryChanged: (index, name) {
           print('当前分类: $name (索引: $index)');
         },

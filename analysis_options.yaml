@@ -3,6 +3,9 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   errors:
     mixin_inherits_from_not_object: ignore
+    public_member_api_docs: ignore
+    package_api_docs: ignore
+    slash_for_doc_comments: ignore
 
 linter:
   rules:
@@ -10,3 +13,6 @@ linter:
     constant_identifier_names: false
     library_prefixes: false
     avoid_print: false
+    public_member_api_docs: false
+    slash_for_doc_comments: false
+    package_api_docs: false

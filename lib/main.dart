@@ -836,6 +836,16 @@ Map<String, WidgetBuilder> routers = {
       return vp_list_demo_page.ListViewLinkListView();
     });
   },
+  "左侧分类右侧详情联动列表": (context) {
+    ///左侧分类列表和右侧详情列表联动，支持滚动回调
+    return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
+      return vp_list_demo_page.CategoryDetailListView(
+        onCategoryChanged: (index, name) {
+          print('当前分类: $name (索引: $index)');
+        },
+      );
+    });
+  },
   "3D 透视卡片": (context) {
     ///对应文章解析  https://juejin.cn/post/7124064789763981326
     return ContainerAsyncRouterPage(card_perspective_demo_page.loadLibrary(),

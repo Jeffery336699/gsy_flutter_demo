@@ -232,6 +232,12 @@ import 'package:gsy_flutter_demo/widget/liquid_glass_demo.dart'
 import 'package:gsy_flutter_demo/widget/liquid_glass_demo2.dart'
     deferred as liquid_glass_demo2;
 
+import 'package:gsy_flutter_demo/widget/inherited_model_demo.dart'
+    deferred as inherited_model_demo;
+
+import 'package:gsy_flutter_demo/widget/app_lifecycle_listener_demo_page.dart'
+    deferred as app_lifecycle_listener_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -313,7 +319,8 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var routeLists = routers.keys.toList();
+    ///反转一下方便查看
+    var routeLists = routers.keys.toList().reversed.toList();
     print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
       appBar: AppBar(
@@ -330,12 +337,12 @@ class MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 height: 50,
-                child: Text(routers.keys.toList()[index]),
+                child: Text(routeLists[index]),
               ),
             ),
           );
         },
-        itemCount: routers.length,
+        itemCount: routeLists.length,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -1000,6 +1007,18 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(liquid_glass_demo2.loadLibrary(),
         (context) {
       return liquid_glass_demo2.LiquidGlassShaderView2();
+    });
+  },
+  "Flutter 小技巧之 3.10 全新的 MediaQuery 优化与 InheritedModel": (context) {
+    return ContainerAsyncRouterPage(inherited_model_demo.loadLibrary(),
+        (context) {
+      return inherited_model_demo.InheritedModelDemo();
+    });
+  },
+  "AppLifecycleListener 生命周期演示": (context) {
+    return ContainerAsyncRouterPage(
+        app_lifecycle_listener_demo_page.loadLibrary(), (context) {
+      return app_lifecycle_listener_demo_page.AppLifecycleListenerDemoPage();
     });
   },
 };

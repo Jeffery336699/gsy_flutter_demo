@@ -13,7 +13,7 @@ class ControllerDemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
-      print("######### MyHomePage ${MediaQuery.of(context).size}");
+      // print("######### MyHomePage ${MediaQuery.of(context).size}");
     }
     return Scaffold(
       appBar: AppBar(),

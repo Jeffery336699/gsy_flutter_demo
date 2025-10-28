@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 ///支持动态高度的左侧分类右侧详情联动列表
@@ -106,6 +108,16 @@ class _DynamicHeightCategoryListViewState
   @override
   void initState() {
     super.initState();
+    debugFillProperties(DiagnosticPropertiesBuilder properties) {
+      super.debugFillProperties(properties);
+      properties.add(IntProperty(
+          'selectedCategoryIndex', _selectedCategoryIndex,
+          defaultValue: 0));
+      properties.add(FlagProperty('isClickScroll',
+          value: _isClickScroll, ifTrue: 'isClickScroll'));
+      properties.add(FlagProperty('isLayoutCalculated',
+          value: _isLayoutCalculated, ifTrue: 'isLayoutCalculated'));
+    }
     ///为每个分类创建 GlobalKey
     for (int i = 0; i < _categories.length; i++) {
       _categoryKeys.add(GlobalKey());
@@ -138,6 +150,30 @@ class _DynamicHeightCategoryListViewState
     _categoryScrollController.dispose();
     _detailScrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    /// 运行应用 (Debug 模式)
+    /// 打开 Flutter DevTools，切换到 "Flutter Inspector" 标签页
+    /// 在 Widget 树中选中 _DynamicHeightCategoryListViewState
+    ///
+    /// 在右侧 "Details Tree" 面板中查看:
+    /// selectedCategoryIndex: 当前选中的分类索引
+    /// isClickScroll: 是否正在执行点击触发的滚动
+    /// isLayoutCalculated: 布局是否已完成计算
+    /// categoryPositions: 每个分类的实际位置数组
+    /// 当您滚动列表或点击分类时，这些值会实时更新，让您可以直观地观察状态变化，极大提升调试效率
+    properties.add(IntProperty('selectedCategoryIndex', _selectedCategoryIndex,
+        defaultValue: 0));
+    properties.add(FlagProperty('isClickScroll',
+        value: _isClickScroll, ifTrue: 'isClickScroll'));
+    properties.add(FlagProperty('isLayoutCalculated',
+        value: _isLayoutCalculated, ifTrue: 'isLayoutCalculated'));
+    // 添加对分类位置列表的调试输出
+    properties.add(
+        IterableProperty<double>('categoryPositions', _categoryPositions));
   }
 
   ///在布局完成后计算每个分类的实际位置

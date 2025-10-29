@@ -22,6 +22,7 @@ class _OverlayPortalDemoPageState extends State<OverlayPortalDemoPage> {
   ///创建全局悬浮球 OverlayEntry
   OverlayEntry _createFloatingBallEntry() {
     return OverlayEntry(
+
       builder: (context) {
         ///获取屏幕尺寸用于边界检测
         final screenSize = MediaQuery.of(context).size;

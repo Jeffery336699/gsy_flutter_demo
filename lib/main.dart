@@ -238,6 +238,9 @@ import 'package:gsy_flutter_demo/widget/inherited_model_demo.dart'
 import 'package:gsy_flutter_demo/widget/app_lifecycle_listener_demo_page.dart'
     deferred as app_lifecycle_listener_demo_page;
 
+import 'package:gsy_flutter_demo/widget/overlay_portal_demo_page.dart'
+    deferred as overlay_portal_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -1019,6 +1022,12 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(
         app_lifecycle_listener_demo_page.loadLibrary(), (context) {
       return app_lifecycle_listener_demo_page.AppLifecycleListenerDemoPage();
+    });
+  },
+  "OverlayPortal 浮层效果演示": (context) {
+    return ContainerAsyncRouterPage(overlay_portal_demo_page.loadLibrary(),
+        (context) {
+      return overlay_portal_demo_page.OverlayPortalDemoPage();
     });
   },
 };

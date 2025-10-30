@@ -241,6 +241,12 @@ import 'package:gsy_flutter_demo/widget/app_lifecycle_listener_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/overlay_portal_demo_page.dart'
     deferred as overlay_portal_demo_page;
 
+import 'package:gsy_flutter_demo/widget/button_style_demo_page.dart'
+    deferred as button_style_demo_page;
+
+import 'package:gsy_flutter_demo/widget/theme_extensions_demo_page.dart'
+    deferred as theme_extensions_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -1030,6 +1036,20 @@ Map<String, WidgetBuilder> routers = {
       return overlay_portal_demo_page.OverlayPortalDemoPage();
     });
   },
+  "Flutter 小技巧之 ButtonStyle 和 MaterialStateProperty": (context) {
+    return ContainerAsyncRouterPage(button_style_demo_page.loadLibrary(),
+        (context) {
+      return button_style_demo_page.ButtonStyleDemoPage();
+    });
+  },
+  "Flutter 小技巧之 ThemeExtensions 主题扩展": (context) {
+    return ContainerAsyncRouterPage(theme_extensions_demo_page.loadLibrary(),
+        (context) {
+      ///参考：https://juejin.cn/post/7105869440985595912
+      return theme_extensions_demo_page.ThemeExtensionsDemoPage();
+    });
+  },
+
 };
 
 enum Cat {

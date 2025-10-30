@@ -64,6 +64,7 @@ import 'package:gsy_flutter_demo/widget/drag_img_demo_page.dart'
     deferred as drag_img_demo_page;
 import 'package:gsy_flutter_demo/widget/drop_select_menu/drop_select_demo_page.dart'
     deferred as drop_select_demo_page;
+import 'package:gsy_flutter_demo/widget/ext.dart';
 import 'package:gsy_flutter_demo/widget/floating_touch_demo_page.dart'
     deferred as floating_touch_demo_page;
 import 'package:gsy_flutter_demo/widget/gradient_text_demo_page.dart'
@@ -329,7 +330,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     ///反转一下方便查看
-    var routeLists = routers.keys.toList().reversed.toList();
+    var routeLists = routers.keys.toList().reversedList().moveToFrontIf((e) => e.startsWith('*'));
     print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
       appBar: AppBar(
@@ -337,11 +338,13 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
+          var isStart = routeLists[index].startsWith('*');
           return InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(routeLists[index]);
             },
             child: Card(
+              color: isStart?Colors.green:null,
               child: Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -803,7 +806,7 @@ Map<String, WidgetBuilder> routers = {
       return anim_text_demo_page.AnimTextDemoPage();
     });
   },
-  "首尾添加数据不会抖动": (context) {
+  "*首尾添加数据不会抖动": (context) {
     return ContainerAsyncRouterPage(chat_list_scroll_demo_page.loadLibrary(),
         (context) {
       return chat_list_scroll_demo_page.ChatListScrollDemoPage();

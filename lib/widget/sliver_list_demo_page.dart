@@ -107,6 +107,8 @@ class _SliverListDemoPageState extends State<SliverListDemoPage>
         headerSliverBuilder: _sliverBuilder,
         body: CustomScrollView(
           slivers: [
+            /// 因为当你使用 SliverPersistentHeader 去固定住头部的时候，作为 body 的列表是不知道顶部有个固定区域的，
+            /// 所以需要通过 SliverOverlapInjector 来把这个区域给撑开，避免内容被遮挡
             W.Builder(
               builder: (context) {
                 return SliverOverlapInjector(

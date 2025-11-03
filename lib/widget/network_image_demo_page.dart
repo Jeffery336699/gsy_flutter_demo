@@ -14,6 +14,22 @@ class _NetworkImageDemoPageState extends State<NetworkImageDemoPage> {
   final String imageUrl2 = 'https://picsum.photos/400/400';
   final String imageUrl3 = 'https://picsum.photos/500/300';
   final String errorUrl = 'https://invalid-url-for-demo.com/image.jpg';
+  GlobalKey imageKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    // 没法正确获取，图片还在加载中
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   final RenderBox? renderBox =
+    //       imageKey.currentContext?.findRenderObject() as RenderBox?;
+    //   if (renderBox != null) {
+    //     final size = renderBox.size;
+    //     final position = renderBox.localToGlobal(Offset.zero);
+    //     debugPrint('Image position: $position, size: $size');
+    //   }
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +46,30 @@ class _NetworkImageDemoPageState extends State<NetworkImageDemoPage> {
             _buildBasicNetworkImage(),
           ),
           const SizedBox(height: 20),
-          _buildSection(
-            '2. 带加载进度的图片',
-            _buildImageWithProgress(),
-          ),
-          const SizedBox(height: 20),
-          _buildSection(
-            '3. 带占位符和错误处理',
-            _buildImageWithPlaceholder(),
-          ),
-          const SizedBox(height: 20),
-          _buildSection(
-            '4. 圆形头像加载',
-            _buildCircleAvatar(),
-          ),
-          const SizedBox(height: 20),
-          _buildSection(
-            '5. 多张图片网格加载',
-            _buildImageGrid(),
-          ),
-          const SizedBox(height: 20),
-          _buildSection(
-            '6. 自定义加载状态',
-            _buildCustomLoadingImage(),
-          ),
+          // _buildSection(
+          //   '2. 带加载进度的图片',
+          //   _buildImageWithProgress(),
+          // ),
+          // const SizedBox(height: 20),
+          // _buildSection(
+          //   '3. 带占位符和错误处理',
+          //   _buildImageWithPlaceholder(),
+          // ),
+          // const SizedBox(height: 20),
+          // _buildSection(
+          //   '4. 圆形头像加载',
+          //   _buildCircleAvatar(),
+          // ),
+          // const SizedBox(height: 20),
+          // _buildSection(
+          //   '5. 多张图片网格加载',
+          //   _buildImageGrid(),
+          // ),
+          // const SizedBox(height: 20),
+          // _buildSection(
+          //   '6. 自定义加载状态',
+          //   _buildCustomLoadingImage(),
+          // ),
         ],
       ),
     );
@@ -86,9 +102,34 @@ class _NetworkImageDemoPageState extends State<NetworkImageDemoPage> {
   /// 基础网络图片加载
   Widget _buildBasicNetworkImage() {
     return Image.network(
+      key: imageKey,
       imageUrl1,
       height: 200,
       fit: BoxFit.cover,
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) {
+          return child; // 如果是同步加载（比如已经在内存cache中），直接显示图片
+        }
+        var animatedOpacity = AnimatedOpacity(
+          opacity: frame == null ? 0 : 1, // 帧为空时透明，否则不透明
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+          child: child,
+        );
+        if (frame != null) {
+          /// 图片加载完成后，在下一帧获取其尺寸和位置(正确！)
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final RenderBox? renderBox =
+                imageKey.currentContext?.findRenderObject() as RenderBox?;
+            if (renderBox != null && renderBox.hasSize) {
+              final size = renderBox.size;
+              final position = renderBox.localToGlobal(Offset.zero);
+              debugPrint('Image position 22: $position, size: $size');
+            }
+          });
+        }
+        return animatedOpacity;
+      },
     );
   }
 
@@ -315,4 +356,3 @@ class _NetworkImageDemoPageState extends State<NetworkImageDemoPage> {
     );
   }
 }
-

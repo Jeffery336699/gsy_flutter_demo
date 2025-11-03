@@ -62,6 +62,7 @@ class _ChatListScrollDemoPageState extends State<ChatListScrollDemoPage> {
               ItemData(txt: "#### new Send ${newData.length}", type: "Right"));
           setState(() {});
           Future.delayed(const Duration(milliseconds: 1000), () {
+            ///获取滚动视图的最小滚动位置（因为设置了 reverse: true，所以最小滚动位置实际上是列表的底部）
             scroller.jumpTo(scroller.position.minScrollExtent);
           });
         },
@@ -111,6 +112,10 @@ class _ChatListScrollDemoPageState extends State<ChatListScrollDemoPage> {
       body: CustomScrollView(
         controller: scroller,
         reverse: true,
+        // center 属性是 CustomScrollView 的一个特殊属性，用于指定一个锚点，使滚动视图能够双向增长。
+        // 在中心点上方添加数据不会影响下方内容的位置
+        // 在中心点下方添加数据不会影响上方内容的位置
+        // 实现稳定的双向滚动体验
         center: centerKey,
         slivers: [
           SliverList(
@@ -129,6 +134,12 @@ class _ChatListScrollDemoPageState extends State<ChatListScrollDemoPage> {
           SliverPadding(
             padding: EdgeInsets.zero,
             key: centerKey,
+            sliver: const SliverToBoxAdapter(
+              child: Divider(
+                color: Colors.green,
+                thickness: 3,
+              ),
+            ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(

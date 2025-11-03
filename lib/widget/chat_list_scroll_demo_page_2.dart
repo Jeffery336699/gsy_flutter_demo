@@ -155,8 +155,9 @@ class _ChatListScrollDemoPageState2 extends State<ChatListScrollDemoPage2> {
                 if (extentAfter == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("你目前位于最底部，自动跳转新消息item"),
-                    duration: Duration(milliseconds: 1000),
+                    duration: Duration(milliseconds: 3000),
                   ));
+                  ///上次的状态是已经滚动到底部的，所以这次添加新数据后，自动滚动到底部（此逻辑）
                   Future.delayed(const Duration(milliseconds: 200), () {
                     firstScrollToBottom(isAnimated: false);
                   });
@@ -248,6 +249,7 @@ class _ChatListScrollDemoPageState2 extends State<ChatListScrollDemoPage2> {
               }
             }
             extentAfter = notification.metrics.extentAfter;
+            print("extentAfter=$extentAfter , extentBefore=${notification.metrics.extentBefore}");
           }
           return false;
         },
@@ -272,6 +274,12 @@ class _ChatListScrollDemoPageState2 extends State<ChatListScrollDemoPage2> {
             SliverPadding(
               padding: EdgeInsets.zero,
               key: centerKey,
+              sliver: const SliverToBoxAdapter(
+                child: Divider(
+                  color: Colors.blue,
+                  thickness: 3,
+                ),
+              ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(

@@ -248,6 +248,9 @@ import 'package:gsy_flutter_demo/widget/button_style_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/theme_extensions_demo_page.dart'
     deferred as theme_extensions_demo_page;
 
+import 'package:gsy_flutter_demo/widget/network_image_demo_page.dart'
+    deferred as network_image_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -806,7 +809,7 @@ Map<String, WidgetBuilder> routers = {
       return anim_text_demo_page.AnimTextDemoPage();
     });
   },
-  "*首尾添加数据不会抖动": (context) {
+  "首尾添加数据不会抖动": (context) {
     return ContainerAsyncRouterPage(chat_list_scroll_demo_page.loadLibrary(),
         (context) {
       return chat_list_scroll_demo_page.ChatListScrollDemoPage();
@@ -1050,6 +1053,12 @@ Map<String, WidgetBuilder> routers = {
         (context) {
       ///参考：https://juejin.cn/post/7105869440985595912
       return theme_extensions_demo_page.ThemeExtensionsDemoPage();
+    });
+  },
+  "网络图片加载演示": (context) {
+    return ContainerAsyncRouterPage(network_image_demo_page.loadLibrary(),
+        (context) {
+      return network_image_demo_page.NetworkImageDemoPage();
     });
   },
 

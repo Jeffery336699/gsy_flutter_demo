@@ -251,6 +251,9 @@ import 'package:gsy_flutter_demo/widget/theme_extensions_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/network_image_demo_page.dart'
     deferred as network_image_demo_page;
 
+import 'package:gsy_flutter_demo/widget/custom_render_object_demo_page.dart'
+    deferred as custom_render_object_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -1059,6 +1062,12 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(network_image_demo_page.loadLibrary(),
         (context) {
       return network_image_demo_page.NetworkImageDemoPage();
+    });
+  },
+  "自定义 RenderObject 实现自定义 Column": (context) {
+    return ContainerAsyncRouterPage(custom_render_object_demo_page.loadLibrary(),
+        (context) {
+      return custom_render_object_demo_page.CustomRenderObjectDemoPage();
     });
   },
 

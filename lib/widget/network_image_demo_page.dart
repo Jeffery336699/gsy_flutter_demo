@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'multi_step_form.dart';
+
 /// 网络图片加载演示页面
 /// 演示不同的网络图片加载方式和状态处理
 class NetworkImageDemoPage extends StatefulWidget {
@@ -50,7 +52,34 @@ class _NetworkImageDemoPageState extends State<NetworkImageDemoPage> {
           //   '2. 带加载进度的图片',
           //   _buildImageWithProgress(),
           // ),
-          // const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MultiStepForm()));
+            },
+            child: ListTile(
+              title: Text('表单多步骤切换'),
+              subtitle: Text(
+                '保持所有步骤的状态,避免重新构建导致用户输入丢失',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PreloadedContentPage()));
+            },
+            child: ListTile(
+              title: Text('预加载和缓存复杂组件'),
+              subtitle: Text('提前构建但隐藏,需要时立即显示'),
+            ),
+          ),
           // _buildSection(
           //   '3. 带占位符和错误处理',
           //   _buildImageWithPlaceholder(),

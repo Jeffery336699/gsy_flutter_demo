@@ -64,7 +64,7 @@ import 'package:gsy_flutter_demo/widget/drag_img_demo_page.dart'
     deferred as drag_img_demo_page;
 import 'package:gsy_flutter_demo/widget/drop_select_menu/drop_select_demo_page.dart'
     deferred as drop_select_demo_page;
-import 'package:gsy_flutter_demo/widget/ext.dart';
+import 'package:gsy_flutter_demo/widget/exts/ext.dart';
 import 'package:gsy_flutter_demo/widget/floating_touch_demo_page.dart'
     deferred as floating_touch_demo_page;
 import 'package:gsy_flutter_demo/widget/gradient_text_demo_page.dart'
@@ -1058,7 +1058,7 @@ Map<String, WidgetBuilder> routers = {
       return theme_extensions_demo_page.ThemeExtensionsDemoPage();
     });
   },
-  "网络图片加载演示": (context) {
+  "网络图片加载演示+OffStage": (context) {
     return ContainerAsyncRouterPage(network_image_demo_page.loadLibrary(),
         (context) {
       return network_image_demo_page.NetworkImageDemoPage();
@@ -1069,6 +1069,7 @@ Map<String, WidgetBuilder> routers = {
         (context) {
       return custom_render_object_demo_page.CustomRenderObjectDemoPage();
     });
+
   },
 
 };

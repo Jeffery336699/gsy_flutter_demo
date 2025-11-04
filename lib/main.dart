@@ -254,6 +254,9 @@ import 'package:gsy_flutter_demo/widget/network_image_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/custom_render_object_demo_page.dart'
     deferred as custom_render_object_demo_page;
 
+import 'package:gsy_flutter_demo/widget/cached_image_demo_page.dart'
+    deferred as cached_image_demo_page;
+
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {
@@ -1069,7 +1072,12 @@ Map<String, WidgetBuilder> routers = {
         (context) {
       return custom_render_object_demo_page.CustomRenderObjectDemoPage();
     });
-
+  },
+  "*本地缓存图片组件(仿 NetworkImage)": (context) {
+    return ContainerAsyncRouterPage(cached_image_demo_page.loadLibrary(),
+        (context) {
+      return cached_image_demo_page.CachedImageDemoPage();
+    });
   },
 
 };

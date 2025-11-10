@@ -162,8 +162,6 @@ import 'package:gsy_flutter_demo/widget/vp_list_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/dynamic_height_category_list.dart'
     deferred as dynamic_vp_list_demo_page;
 
-
-
 import 'package:gsy_flutter_demo/widget/card_perspective_demo_page.dart'
     deferred as card_perspective_demo_page;
 
@@ -257,7 +255,41 @@ import 'package:gsy_flutter_demo/widget/custom_render_object_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/cached_image_demo_page.dart'
     deferred as cached_image_demo_page;
 
+import 'package:gsy_flutter_demo/widget/gesture_event_competition_demo_page.dart'
+    deferred as gesture_event_competition_demo_page;
+
+import 'package:gsy_flutter_demo/widget/inherited_widget_demo_page.dart'
+    deferred as inherited_widget_demo_page;
+import 'package:logger/logger.dart';
+// import 'package:wakelock_plus/wakelock_plus.dart';
+
 import 'package:window_location_href/window_location_href.dart';
+
+Logger logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+    // 不显示方法调用堆栈
+    errorMethodCount: 0,
+    // 错误时也不显示方法堆栈
+    lineLength: 120,
+    // 缩短边框长度
+    colors: true,
+    // 颜色
+    printEmojis: false,
+    // 禁用表情符号
+    printTime: false,
+    // 禁用时间戳
+    excludeBox: {
+      // 禁用所有级别的边框
+      Level.trace: true,
+      Level.debug: true,
+      Level.info: true,
+      Level.warning: true,
+      Level.error: true,
+      Level.fatal: true,
+    },
+  ),
+);
 
 void main() {
   runApp(const MyApp());
@@ -318,7 +350,8 @@ class MyHomePageState extends State<MyHomePage> {
       print("get enum value with 2.15 ${Cat.values.byName("black")}");
       print("get enum value with 2.17 ${Cat.white.value} ${Cat.white}");
     }
-
+    // 屏幕常亮
+    // WakelockPlus.enable();
     final href = getHref();
     int? index = href?.indexOf("#");
     if (href != null && index != null && index > 0) {
@@ -337,9 +370,18 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void dispose() {
+    // WakelockPlus.disable();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ///反转一下方便查看
-    var routeLists = routers.keys.toList().reversedList().moveToFrontIf((e) => e.startsWith('*'));
+    var routeLists = routers.keys
+        .toList()
+        .reversedList()
+        .moveToFrontIf((e) => e.startsWith('*'));
     print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
       appBar: AppBar(
@@ -353,7 +395,7 @@ class MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).pushNamed(routeLists[index]);
             },
             child: Card(
-              color: isStart?Colors.green:null,
+              color: isStart ? Colors.green : null,
               child: Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -576,12 +618,14 @@ Map<String, WidgetBuilder> routers = {
     });
   },
   "自定义布局展示效果": (context) {
+    // https://juejin.cn/post/6844903878509461518
     return ContainerAsyncRouterPage(custom_multi_render_demo_page.loadLibrary(),
         (context) {
       return custom_multi_render_demo_page.CustomMultiRenderDemoPage();
     });
   },
   "自定义布局实现云词图展示": (context) {
+    // https://juejin.cn/post/6844903878509461518
     return ContainerAsyncRouterPage(cloud_demo_page.loadLibrary(), (context) {
       return cloud_demo_page.CloudDemoPage();
     });
@@ -881,7 +925,8 @@ Map<String, WidgetBuilder> routers = {
   },
   "左侧分类右侧详情联动列表(动态高度)": (context) {
     ///左侧分类列表和右侧详情列表联动，支持滚动回调
-    return ContainerAsyncRouterPage(dynamic_vp_list_demo_page.loadLibrary(), (context) {
+    return ContainerAsyncRouterPage(dynamic_vp_list_demo_page.loadLibrary(),
+        (context) {
       return dynamic_vp_list_demo_page.DynamicHeightCategoryListView(
         onCategoryChanged: (index, name) {
           print('当前分类: $name (索引: $index)');
@@ -1068,18 +1113,30 @@ Map<String, WidgetBuilder> routers = {
     });
   },
   "自定义 RenderObject 实现自定义 Column": (context) {
-    return ContainerAsyncRouterPage(custom_render_object_demo_page.loadLibrary(),
-        (context) {
+    return ContainerAsyncRouterPage(
+        custom_render_object_demo_page.loadLibrary(), (context) {
       return custom_render_object_demo_page.CustomRenderObjectDemoPage();
     });
   },
-  "*本地缓存图片组件(仿 NetworkImage)": (context) {
+  "本地缓存图片组件(仿 NetworkImage)": (context) {
     return ContainerAsyncRouterPage(cached_image_demo_page.loadLibrary(),
         (context) {
       return cached_image_demo_page.CachedImageDemoPage();
     });
   },
-
+  "Flutter 触摸事件与手势竞争深度解析": (context) {
+    return ContainerAsyncRouterPage(
+        gesture_event_competition_demo_page.loadLibrary(), (context) {
+      return gesture_event_competition_demo_page
+          .GestureEventCompetitionDemoPage();
+    });
+  },
+  "InheritedWidget 数据共享原理与最佳实践": (context) {
+    return ContainerAsyncRouterPage(inherited_widget_demo_page.loadLibrary(),
+        (context) {
+      return inherited_widget_demo_page.InheritedWidgetDemoPage();
+    });
+  },
 };
 
 enum Cat {

@@ -23,18 +23,30 @@ abstract class DropSelectState<T extends DropSelectWidget> extends State<T> {
 
   @override
   void didChangeDependencies() {
+
     controller ??= widget.controller ?? DropSelectMenuContainer.of(context);
+    print('$hashCode====> didChangeDependencies controller.hasListeners=${controller?.hasListeners}');
     controller?.addListener(_onEvent);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(T oldWidget) {
+    // 由于State是跨帧的，当外部widget配置更新时，我这里处理controller变化的情况
+    // 在当前state<->Element是绑定关系，在widget（配置）更新时，state对象不会变化
+    // 所以就需要对复用的state对象中的controller（数据）进行更新，新的数据在widget中
     if (widget.controller != null) {
       controller?.removeListener(_onEvent);
       controller = widget.controller;
       controller?.addListener(_onEvent);
     }
+    // 在 Widget 的生命周期中：
+    //
+    // 1.  **首次创建时**：`didChangeDependencies` 会在 `initState` 之后被调用，而 `didUpdateWidget` **不会**被调用。
+    // 2.  **后续更新时**：当 Widget 的配置发生变化时，`didUpdateWidget` 会先被调用。如果该 Widget 依赖的 `InheritedWidget`
+    //      发生了变化，那么 `didChangeDependencies` 会在 `didUpdateWidget` **之后**被调用。
+    //
+    // 总结来说，在更新流程中，`didUpdateWidget` 先于 `didChangeDependencies`。
     super.didUpdateWidget(oldWidget);
   }
 

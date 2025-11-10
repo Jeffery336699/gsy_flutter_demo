@@ -132,6 +132,8 @@ dependencies:
   path_provider: ^2.1.0
   #加密哈希函数的功能
   crypto: ^3.0.3
+#  wakelock_plus: ^1.1.4
+  logger: ^2.6.2
   zflutter:
     git:
       url: https://github.com/CarGuo/zflutter.git

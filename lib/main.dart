@@ -260,6 +260,9 @@ import 'package:gsy_flutter_demo/widget/gesture_event_competition_demo_page.dart
 
 import 'package:gsy_flutter_demo/widget/inherited_widget_demo_page.dart'
     deferred as inherited_widget_demo_page;
+
+import 'package:gsy_flutter_demo/widget/scoped_model_demo_page.dart'
+    deferred as scoped_model_demo_page;
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -1135,6 +1138,12 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(inherited_widget_demo_page.loadLibrary(),
         (context) {
       return inherited_widget_demo_page.InheritedWidgetDemoPage();
+    });
+  },
+  "Scoped Model 状态管理最佳实践": (context) {
+    return ContainerAsyncRouterPage(scoped_model_demo_page.loadLibrary(),
+        (context) {
+      return scoped_model_demo_page.ScopedModelDemoPage();
     });
   },
 };

@@ -18,8 +18,16 @@ class InheritedWidgetDemoPage extends StatelessWidget {
         '[$runtimeType] ${context.getElementForInheritedWidgetOfExactType<AppThemeProvider>()} InheritedWidgetDemoPage build called');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('InheritedWidget 数据共享原理'),
+        title: const Text('InheritedWidget共享原理'),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_circle),
+            onPressed: () {
+              (context as Element).markNeedsBuild();
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -132,6 +140,15 @@ class _ThemeDemoState extends State<ThemeDemo> {
     fontSize: 16,
   );
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      logger.i('5秒后自动切换主题');
+      _toggleTheme();
+    });
+  }
+
   void _toggleTheme() {
     setState(() {
       _theme = _theme.primaryColor == Colors.blue
@@ -154,21 +171,39 @@ class _ThemeDemoState extends State<ThemeDemo> {
         '[$runtimeType] ${context.getElementForInheritedWidgetOfExactType<AppThemeProvider>()} ThemeDemo build called');
     return AppThemeProvider(
       theme: _theme,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+      child:  MyTestStatefulWidget(text: '最底层组件调用')/*_theme.primaryColor == Colors.blue?*/ /*Builder(
+        builder: (context) {
+          logger.i('build构建了，Card');
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  const ThemedText('这是使用主题的文本'),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: _toggleTheme,
+                    child: const Text('切换主题'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      )*//*Builder(
+        builder: (context) {
+          logger.i('build构建了，Column');
+          return Column(
             children: [
-              const ThemedText('这是使用主题的文本'),
-              const SizedBox(height: 12),
+              Text('text',style: TextStyle(color: Colors.purple,fontSize: 30),),
               ElevatedButton(
                 onPressed: _toggleTheme,
                 child: const Text('切换主题'),
               ),
             ],
-          ),
-        ),
-      ),
+          );
+        }
+      )*/
     );
   }
 
@@ -366,7 +401,7 @@ class MyTestStatefulWidget extends StatefulWidget {
 class _MyTestStatefulWidgetState extends State<MyTestStatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    logger.w('5555555555555最底层。。。。。。。。。组件');
+    logger.w('_MyTestStatefulWidgetState 5555555555555最底层。。。。。。。。。build组件');
     return ElevatedButton(
       onPressed: () { setState(() {
         print('MyTestStatefulWidget setState调用，不会触发didUpdateWidget');

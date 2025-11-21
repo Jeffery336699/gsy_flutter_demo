@@ -5,13 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class _TestCenterSliver extends SingleChildRenderObjectWidget {
-  const _TestCenterSliver({
+   _TestCenterSliver({
     this.containerLayoutExtent = 0.0,
     this.initLayoutExtent = 0.0,
     this.hasLayoutExtent = false,
     this.pinned = false,
     super.child,
-  })  : assert(containerLayoutExtent >= 0.0);
+  })  : assert(containerLayoutExtent >= 0.0) {
+    print('containerLayoutExtent:$containerLayoutExtent'); // 100
+    print('initLayoutExtent:$initLayoutExtent'); // 100
+    print('hasLayoutExtent:$hasLayoutExtent'); // false
+    print('pinned:$pinned'); // false
+  }
 
   final double initLayoutExtent;
   final double containerLayoutExtent;
@@ -121,7 +126,7 @@ class _RenderCustomSliver extends RenderSliver
     ///布局没有发生变化，滚动
 
     final bool active = constraints.overlap < 0.0 || layoutExtent > 0.0;
-    const double overscrolledExtent = 0.0;
+    double overscrolledExtent = 0.0;
 
     child!.layout(
       constraints.asBoxConstraints(

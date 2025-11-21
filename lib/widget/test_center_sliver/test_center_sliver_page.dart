@@ -18,21 +18,27 @@ class TestCenterSliverPageState extends State<TestCenterSliverPage> {
       appBar: AppBar(
         title: const Text("TestCenterSliverPage"),
       ),
-      body: const CustomScrollView(
-          anchor: 0.5,
-          ///回弹效果
-          physics: BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          slivers: <Widget>[
-            TestCenterSliver(
-              initLayoutExtent: 100,
-              containerExtent: 100,
-              triggerPullDistance: 100,
-              pinned: false,
-            ),
+      body: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          const CustomScrollView(
+              anchor: 0.5,
+              ///回弹效果
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              slivers: <Widget>[
+                TestCenterSliver(
+                  initLayoutExtent: 100,
+                  containerExtent: 100,
+                  triggerPullDistance: 100,
+                  pinned: false,
+                ),
 
-          ],
-        ),
+              ],
+            ),
+          Divider(color: Colors.green,)
+        ],
+      ),
     );
   }
 }

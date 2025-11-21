@@ -273,6 +273,13 @@ import 'package:gsy_flutter_demo/widget/keep_alive_demo_page.dart'
 
 import 'package:gsy_flutter_demo/widget/slider_demo_page.dart'
     deferred as slider_demo_page;
+
+import 'package:gsy_flutter_demo/widget/viewport_sliver_demo_page.dart'
+    deferred as viewport_sliver_demo_page;
+
+import 'package:gsy_flutter_demo/widget/test_center_sliver/test_center_sliver_page.dart'
+    deferred as test_center_sliver_page;
+
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -1187,7 +1194,12 @@ Map<String, WidgetBuilder> routers = {
       return slider_demo_page.SliderDemoPage();
     });
   },
-
+  "Viewport 与 Sliver 的关系": (context) {
+    return ContainerAsyncRouterPage(test_center_sliver_page.loadLibrary(),
+        (context) {
+      return test_center_sliver_page.TestCenterSliverPage();
+    });
+  },
 };
 
 enum Cat {

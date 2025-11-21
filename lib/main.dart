@@ -89,6 +89,7 @@ import 'package:gsy_flutter_demo/widget/matrix_custom_painter_page.dart'
     deferred as matrix_custom_painter_page;
 import 'package:gsy_flutter_demo/widget/overflow_image_page.dart'
     deferred as overflow_image_page;
+import 'package:gsy_flutter_demo/widget/particle/my_flexible_space_header_opacity.dart';
 import 'package:gsy_flutter_demo/widget/particle/particle_page.dart'
     deferred as particle_page;
 import 'package:gsy_flutter_demo/widget/positioned_demo_page.dart'
@@ -263,6 +264,15 @@ import 'package:gsy_flutter_demo/widget/inherited_widget_demo_page.dart'
 
 import 'package:gsy_flutter_demo/widget/scoped_model_demo_page.dart'
     deferred as scoped_model_demo_page;
+
+import 'package:gsy_flutter_demo/widget/notification_demo_page.dart'
+    deferred as notification_demo_page;
+
+import 'package:gsy_flutter_demo/widget/keep_alive_demo_page.dart'
+    deferred as keep_alive_demo_page;
+
+import 'package:gsy_flutter_demo/widget/slider_demo_page.dart'
+    deferred as slider_demo_page;
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -295,8 +305,21 @@ Logger logger = Logger(
 );
 
 void main() {
-  runApp(const MyApp());
-  WidgetsBinding.instance.addObserver(ReferrerObserver());
+  // runApp(const MyApp());
+  // WidgetsBinding.instance.addObserver(ReferrerObserver());
+
+  /// 演示图层
+  runApp(MyFlexibleSpaceHeaderOpacity(
+    child: Builder(
+      builder: (context) {
+        Future.delayed(const Duration(seconds: 2), () {
+          // 转储整个 Layer 树
+          debugDumpLayerTree();
+        });
+        return Image.asset('static/card_up_2.png');
+      }
+    ),)
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -1146,6 +1169,25 @@ Map<String, WidgetBuilder> routers = {
       return scoped_model_demo_page.ScopedModelDemoPage();
     });
   },
+  "Notification 通知机制演示": (context) {
+    return ContainerAsyncRouterPage(notification_demo_page.loadLibrary(),
+        (context) {
+      return notification_demo_page.NotificationDemoPage();
+    });
+  },
+  "AutomaticKeepAliveClientMixin 状态保活示例": (context) {
+    return ContainerAsyncRouterPage(keep_alive_demo_page.loadLibrary(),
+        (context) {
+      return keep_alive_demo_page.KeepAliveDemoPage();
+    });
+  },
+  "Slider 滑块组件使用示例": (context) {
+    return ContainerAsyncRouterPage(slider_demo_page.loadLibrary(),
+        (context) {
+      return slider_demo_page.SliderDemoPage();
+    });
+  },
+
 };
 
 enum Cat {

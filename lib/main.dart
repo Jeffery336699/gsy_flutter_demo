@@ -305,21 +305,21 @@ Logger logger = Logger(
 );
 
 void main() {
-  // runApp(const MyApp());
-  // WidgetsBinding.instance.addObserver(ReferrerObserver());
+  runApp(const MyApp());
+  WidgetsBinding.instance.addObserver(ReferrerObserver());
 
   /// 演示图层
-  runApp(MyFlexibleSpaceHeaderOpacity(
-    child: Builder(
-      builder: (context) {
-        Future.delayed(const Duration(seconds: 2), () {
-          // 转储整个 Layer 树
-          debugDumpLayerTree();
-        });
-        return Image.asset('static/card_up_2.png');
-      }
-    ),)
-  );
+  // runApp(MyFlexibleSpaceHeaderOpacity(
+  //   child: Builder(
+  //     builder: (context) {
+  //       Future.delayed(const Duration(seconds: 2), () {
+  //         // 转储整个 Layer 树
+  //         debugDumpLayerTree();
+  //       });
+  //       return Image.asset('static/card_up_2.png');
+  //     }
+  //   ),)
+  // );
 }
 
 class MyApp extends StatelessWidget {

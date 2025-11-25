@@ -414,10 +414,18 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     ///反转一下方便查看
-    var routeLists = routers.keys
-        .toList()
-        .reversedList()
-        .moveToFrontIf((e) => e.startsWith('*'));
+    // var routeLists = routers.keys
+    //     .toList()
+    //     .reversedList()
+    //     .moveToFrontIf((e) => e.startsWith('*'));
+
+    ///请查找出第一个以 * 开头的路由名称，看看是什么页面，如果没有的话就取最后一条
+    var firstStarRoute = routers.keys.firstWhere(
+          (key) => key.startsWith('*'),
+      orElse: () => routers.keys.last,
+    );
+    var routeLists = [firstStarRoute];
+
     print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
       appBar: AppBar(
@@ -488,9 +496,12 @@ class ContainerAsyncRouterPage extends StatelessWidget {
 }
 
 Map<String, WidgetBuilder> routers = {
+  /// deferred as+loadLibrary 方式实现路由懒加载,真正用到时才加载对应页面库
   "文本输入框简单的 Controller": (context) {
+    // logger.w('1111111111111进入文本输入框简单的 Controller 页面');
     return ContainerAsyncRouterPage(controller_demo_page.loadLibrary(),
         (context) {
+      // logger.w('222222222222222进入文本输入框简单的 Controller 页面');
       return controller_demo_page.ControllerDemoPage();
     });
   },
@@ -582,7 +593,7 @@ Map<String, WidgetBuilder> routers = {
       return wrap_content_page.WrapContentPage();
     });
   },
-  "状态栏颜色修改（仅 App）": (context) {
+  "*状态栏颜色修改（仅 App）": (context) {
     return ContainerAsyncRouterPage(statusbar_demo_page.loadLibrary(),
         (context) {
       return statusbar_demo_page.StatusBarDemoPage();

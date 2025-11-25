@@ -280,6 +280,9 @@ import 'package:gsy_flutter_demo/widget/viewport_sliver_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/test_center_sliver/test_center_sliver_page.dart'
     deferred as test_center_sliver_page;
 
+import 'package:gsy_flutter_demo/widget/method_channel_demo_page.dart'
+    deferred as method_channel_demo_page;
+
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -1198,6 +1201,12 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(test_center_sliver_page.loadLibrary(),
         (context) {
       return test_center_sliver_page.TestCenterSliverPage();
+    });
+  },
+  "MethodChannel 平台通信示例": (context) {
+    return ContainerAsyncRouterPage(method_channel_demo_page.loadLibrary(),
+        (context) {
+      return method_channel_demo_page.MethodChannelDemoPage();
     });
   },
 };

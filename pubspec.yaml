@@ -161,9 +161,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  shaders:
-    - shaders/liquid_glass.frag
-    - shaders/liquid_glass2.frag
+  # shaders:
+  #   - shaders/liquid_glass.frag
+  #   - shaders/liquid_glass2.frag
 
   # To add assets to your application, add an assets section, like this:
   assets:

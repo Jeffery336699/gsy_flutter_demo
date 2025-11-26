@@ -283,6 +283,9 @@ import 'package:gsy_flutter_demo/widget/test_center_sliver/test_center_sliver_pa
 import 'package:gsy_flutter_demo/widget/method_channel_demo_page.dart'
     deferred as method_channel_demo_page;
 
+import 'package:gsy_flutter_demo/widget/platform_view_demo_page.dart'
+    deferred as platform_view_demo_page;
+
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -593,7 +596,7 @@ Map<String, WidgetBuilder> routers = {
       return wrap_content_page.WrapContentPage();
     });
   },
-  "*状态栏颜色修改（仅 App）": (context) {
+  "状态栏颜色修改（仅 App）": (context) {
     return ContainerAsyncRouterPage(statusbar_demo_page.loadLibrary(),
         (context) {
       return statusbar_demo_page.StatusBarDemoPage();
@@ -1218,6 +1221,12 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(method_channel_demo_page.loadLibrary(),
         (context) {
       return method_channel_demo_page.MethodChannelDemoPage();
+    });
+  },
+  "PlatformView 嵌入原生进度条": (context) {
+    return ContainerAsyncRouterPage(platform_view_demo_page.loadLibrary(),
+        (context) {
+      return platform_view_demo_page.PlatformViewDemoPage();
     });
   },
 };

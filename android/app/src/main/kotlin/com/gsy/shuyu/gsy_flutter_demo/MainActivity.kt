@@ -1,5 +1,6 @@
 package com.gsy.shuyu.gsy_flutter_demo
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -14,13 +15,34 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "com.example.demo/method_channel"
+    private val PROGRESS_CHANNEL = "com.example.platform_view/progress"
     private var methodChannel: MethodChannel? = null
+    private var progressChannel: MethodChannel? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
+        // 注册 PlatformView
+        flutterEngine
+            .platformViewsController
+            .registry
+            .registerViewFactory("native-progress-bar", NativeProgressBarFactory())
+
         // 创建 MethodChannel
         methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+
+        // 创建进度条控制 MethodChannel
+        progressChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, PROGRESS_CHANNEL)
+        progressChannel?.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "updateProgress" -> {
+                    val progress = (call.argument<Double>("progress") ?: 0.5).toFloat()
+                    NativeProgressBarFactory.updateProgress(progress)
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
 
         // 设置方法调用处理器
         methodChannel?.setMethodCallHandler { call, result ->
@@ -66,6 +88,7 @@ class MainActivity: FlutterActivity() {
     /**
      * 获取电池电量
      */
+    @SuppressLint("NewApi")
     private fun getBatteryLevel(): Int {
         return try {
             val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -78,5 +101,6 @@ class MainActivity: FlutterActivity() {
     override fun onDestroy() {
         super.onDestroy()
         methodChannel?.setMethodCallHandler(null)
+        progressChannel?.setMethodCallHandler(null)
     }
 }

@@ -4,6 +4,7 @@ import Flutter
 @main
 @objc class AppDelegate: FlutterAppDelegate {
   private var methodChannel: FlutterMethodChannel?
+  private var progressChannel: FlutterMethodChannel?
 
   override func application(
     _ application: UIApplication,
@@ -17,10 +18,36 @@ import Flutter
       fatalError("rootViewController is not type FlutterViewController")
     }
 
+    // 注册 PlatformView
+    let registrar = self.registrar(forPlugin: "NativeProgressBar")!
+    let factory = NativeProgressBarFactory(messenger: registrar.messenger())
+    registrar.register(factory, withId: "native-progress-bar")
+
     // 创建 MethodChannel
     let channelName = "com.example.demo/method_channel"
     methodChannel = FlutterMethodChannel(name: channelName,
                                          binaryMessenger: controller.binaryMessenger)
+
+    // 创建进度条控制 MethodChannel
+    let progressChannelName = "com.example.platform_view/progress"
+    progressChannel = FlutterMethodChannel(name: progressChannelName,
+                                          binaryMessenger: controller.binaryMessenger)
+
+    progressChannel?.setMethodCallHandler({ (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
+      if call.method == "updateProgress" {
+        if let args = call.arguments as? [String: Any],
+           let progress = args["progress"] as? Double {
+          NativeProgressBarFactory.updateProgress(Float(progress))
+          result(nil)
+        } else {
+          result(FlutterError(code: "INVALID_ARGUMENT",
+                            message: "Invalid progress value",
+                            details: nil))
+        }
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
+    })
 
     // 设置方法调用处理器
     methodChannel?.setMethodCallHandler({ [weak self]

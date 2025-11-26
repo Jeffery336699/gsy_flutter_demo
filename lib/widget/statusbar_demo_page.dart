@@ -29,47 +29,45 @@ class _StatusBarDemoPageState extends State<StatusBarDemoPage> {
   getBody() {
     return Scaffold(
       appBar: const ImageAppBar(),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-              onPressed: () {
-                ///手动修改
-                setState(() {
-                  customSystemUIOverlayStyle = true;
-                });
-                SystemChrome.setSystemUIOverlayStyle(
-                    SystemUiOverlayStyle.light);
-              },
-              style: ButtonStyle(
-                backgroundColor: ButtonStyleButton.allOrNull<Color>(
-                  Colors.yellowAccent,
-                ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          TextButton(
+            onPressed: () {
+              ///手动修改
+              setState(() {
+                customSystemUIOverlayStyle = true;
+              });
+              SystemChrome.setSystemUIOverlayStyle(
+                  SystemUiOverlayStyle.light);
+            },
+            style: ButtonStyle(
+              backgroundColor: ButtonStyleButton.allOrNull<Color>(
+                Colors.yellowAccent,
               ),
-              child: const Text("Light"),
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  customSystemUIOverlayStyle = true;
-                });
-                SystemChrome.setSystemUIOverlayStyle(
-                    SystemUiOverlayStyle.dark);
-              },
-              style: ButtonStyle(
-                backgroundColor: ButtonStyleButton.allOrNull<Color>(
-                  Colors.greenAccent,
-                ),
+            child: const Text("Light"),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                customSystemUIOverlayStyle = true;
+              });
+              SystemChrome.setSystemUIOverlayStyle(
+                  SystemUiOverlayStyle.dark);
+            },
+            style: ButtonStyle(
+              backgroundColor: ButtonStyleButton.allOrNull<Color>(
+                Colors.greenAccent,
               ),
-              child: const Text("Dart"),
             ),
-          ],
-        ),
+            child: const Text("Dart"),
+          ),
+        ],
       ),
     );
   }
@@ -87,7 +85,7 @@ class ImageAppBar extends StatelessWidget implements PreferredSizeWidget {
           "static/gsy_cat.png",
           fit: BoxFit.cover,
           width: MediaQuery.sizeOf(context).width,
-          height: kToolbarHeight * 3,
+          height: kToolbarHeight * 6,
         ),
         SafeArea(
           child: IconButton(
@@ -102,5 +100,5 @@ class ImageAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 3);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 6);
 }

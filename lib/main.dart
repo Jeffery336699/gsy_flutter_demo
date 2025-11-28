@@ -416,20 +416,13 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ///反转一下方便查看
-    // var routeLists = routers.keys
-    //     .toList()
-    //     .reversedList()
-    //     .moveToFrontIf((e) => e.startsWith('*'));
+    ///反转一下方便查看，将以 * 开头的路由放到最前面
+    var routeLists = routers.keys
+        .toList()
+        .reversedList()
+        .moveToFrontIf((e) => e.startsWith('*'));
 
-    ///请查找出第一个以 * 开头的路由名称，看看是什么页面，如果没有的话就取最后一条
-    var firstStarRoute = routers.keys.firstWhere(
-          (key) => key.startsWith('*'),
-      orElse: () => routers.keys.last,
-    );
-    var routeLists = [firstStarRoute];
-
-    print('routeLists=${routeLists.length}'); // 103条
+    print('routeLists=${routeLists.length}');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title!),

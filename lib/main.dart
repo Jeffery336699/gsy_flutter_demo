@@ -286,6 +286,10 @@ import 'package:gsy_flutter_demo/widget/method_channel_demo_page.dart'
 import 'package:gsy_flutter_demo/widget/platform_view_demo_page.dart'
     deferred as platform_view_demo_page;
 
+import 'package:gsy_flutter_demo/widget/custom_sliver_list_page.dart'
+    deferred as custom_sliver_list_page2
+    hide SliverGeometryDebugExtension, SliverConstraintsDebugExtension;
+
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -423,11 +427,10 @@ class MyHomePageState extends State<MyHomePage> {
     //     .moveToFrontIf((e) => e.startsWith('*'));
 
     ///请查找出第一个以 * 开头的路由名称，看看是什么页面，如果没有的话就取最后一条
-    var firstStarRoute = routers.keys.firstWhere(
-          (key) => key.startsWith('*'),
-      orElse: () => routers.keys.last,
+    var where = routers.keys.where(
+          (key) => key.startsWith('*')
     );
-    var routeLists = [firstStarRoute];
+    var routeLists = where.isEmpty?[routers.keys.last]:where.toList();
 
     print('routeLists=${routeLists.length}'); // 103条
     return Scaffold(
@@ -648,7 +651,7 @@ Map<String, WidgetBuilder> routers = {
       return viewpager_demo_page.ViewPagerDemoPage();
     });
   },
-  "列表滑动过程控件停靠效果": (context) {
+  "*列表滑动过程控件停靠效果1": (context) {
     return ContainerAsyncRouterPage(sliver_list_demo_page.loadLibrary(),
         (context) {
       return sliver_list_demo_page.SliverListDemoPage();
@@ -690,7 +693,7 @@ Map<String, WidgetBuilder> routers = {
       return stick_demo_page2.StickExpendDemoPage();
     });
   },
-  "列表滑动停靠效果2 （Stick": (context) {
+  "*列表滑动停靠效果2 （Stick": (context) {
     return ContainerAsyncRouterPage(sliver_stick_demo_page.loadLibrary(),
         (context) {
       return sliver_stick_demo_page.SliverStickListDemoPage();
@@ -765,7 +768,7 @@ Map<String, WidgetBuilder> routers = {
       return anim_tip_demo_page.AnimTipDemoPage();
     });
   },
-  "列表停靠展开+回到当前头部": (context) {
+  "*列表停靠展开+回到当前头部": (context) {
     return ContainerAsyncRouterPage(stick_sliver_list_demo_page.loadLibrary(),
         (context) {
       return stick_sliver_list_demo_page.StickSliverListDemoPage();
@@ -787,13 +790,13 @@ Map<String, WidgetBuilder> routers = {
       return card_item_page.CardItemPage();
     });
   },
-  "多列表+顶部Tab效果展示": (context) {
+  "*多列表+顶部Tab效果展示": (context) {
     return ContainerAsyncRouterPage(sliver_tab_demo_page.loadLibrary(),
         (context) {
       return sliver_tab_demo_page.SliverTabDemoPage();
     });
   },
-  "多列表+顶部Tab效果展示2": (context) {
+  "*多列表+顶部Tab效果展示2": (context) {
     return ContainerAsyncRouterPage(sliver_tab_demo_page2.loadLibrary(),
         (context) {
       return sliver_tab_demo_page2.SliverTabDemoPage2();
@@ -939,25 +942,25 @@ Map<String, WidgetBuilder> routers = {
       return anim_switch_layout_demo_page.AnimSwitchLayoutDemoPage();
     });
   },
-  "ListView 嵌套 ViewPager 解决斜着滑动问题": (context) {
+  "*ListView 嵌套 ViewPager 解决斜着滑动问题": (context) {
     ///对应文章解析 https://juejin.cn/post/7116267156655833102
     return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
       return vp_list_demo_page.VPListView();
     });
   },
-  "垂直  ViewPager 嵌套垂直 ListView ": (context) {
+  "*垂直  ViewPager 嵌套垂直 ListView ": (context) {
     ///对应文章解析 https://juejin.cn/post/7116267156655833102
     return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
       return vp_list_demo_page.VPNestListView();
     });
   },
-  "垂直  ListView 嵌套垂直  ViewPager": (context) {
+  "*垂直  ListView 嵌套垂直  ViewPager": (context) {
     ///对应文章解析 https://juejin.cn/post/7116267156655833102
     return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
       return vp_list_demo_page.ListViewNestVP();
     });
   },
-  "垂直  ListView 联动  ListView": (context) {
+  "*垂直  ListView 联动  ListView": (context) {
     ///对应文章解析 https://juejin.cn/post/7116267156655833102
     return ContainerAsyncRouterPage(vp_list_demo_page.loadLibrary(), (context) {
       return vp_list_demo_page.ListViewLinkListView();
@@ -1229,6 +1232,19 @@ Map<String, WidgetBuilder> routers = {
       return platform_view_demo_page.PlatformViewDemoPage();
     });
   },
+  "*Scrollable+Viewport探究滑动": (context) {
+    return ContainerAsyncRouterPage(viewport_sliver_demo_page.loadLibrary(),
+        (context) {
+      return viewport_sliver_demo_page.ViewportSliverDemoPage();
+    });
+  },
+  "自定义 SliverList 按需加载": (context) {
+    return ContainerAsyncRouterPage(custom_sliver_list_page2.loadLibrary(),
+        (context) {
+      return custom_sliver_list_page2.CustomSliverListPage();
+    });
+  },
+
 };
 
 enum Cat {

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:gsy_flutter_demo/main.dart';
 
 ///支持动态高度的左侧分类右侧详情联动列表
 ///商品项高度根据内容自适应
@@ -193,6 +194,7 @@ class _DynamicHeightCategoryListViewState
         ///使用实际渲染高度累加位置
         currentPosition += renderBox.size.height;
       } else {
+        logger.w('存在估值情况，category index: $i');
         ///如果无法获取（极少情况），使用估算值
         currentPosition += _categoryTitleHeight +
             (_categories[i].items.length * 150); ///估算每项150高度

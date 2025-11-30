@@ -1,13 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gsy_flutter_demo/main.dart';
 import 'package:gsy_flutter_demo/widget/pin_sliver/pin_sliver2.dart';
+import 'package:gsy_flutter_demo/widget/pin_sliver/pin_sliver3.dart';
+import 'package:gsy_flutter_demo/widget/pin_sliver/pin_sliver4.dart';
 
 import 'pin_sliver/pin_sliver.dart';
 
 class ViewportSliverDemoPage extends StatelessWidget {
   ViewportSliverDemoPage({super.key});
-
+  late BuildContext context;
   final ViewportOffset position = ViewportOffset.zero();
   final List<Color> _colors = List<Color>.generate(
     6,
@@ -16,6 +20,7 @@ class ViewportSliverDemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    this.context=context;
     print('position: ${position.pixels}');
     return Scaffold(
       appBar: AppBar(
@@ -54,9 +59,11 @@ class ViewportSliverDemoPage extends StatelessWidget {
                     offset: position,
                     axisDirection: AxisDirection.down,
                     slivers: <Widget>[
+                      // mySliverWidget,
+                      // mySliverWidget2,
                       // buildSliverAppBar,
-                      mySliverPersistentHeader,
-                      // fixedHeaderSliver,
+                      // mySliverPersistentHeader,
+                      fixedHeaderSliver,
                       // buildSliverToBoxAdapterHeader,
                       // sliverFixedExtentList,
                       // buildSliverToBoxAdapter,
@@ -185,22 +192,62 @@ class ViewportSliverDemoPage extends StatelessWidget {
   }
 
   /// 还有问题，得找找其他方式(Flutter实战中？安德烈小册？)或者仿照系统得SliverAppBar
-  FixedHeaderSliver get fixedHeaderSliver {
+  Widget get fixedHeaderSliver {
     return FixedHeaderSliver(
       height: 56.0, // 展开时 200 高
-      child: Container(
-          color: Colors.deepOrangeAccent.shade100.withOpacity(1),
-          alignment: Alignment.centerLeft,
-          child: Text('简单文本')),
+      child: TextButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('点击了 FixedHeaderSliver')),
+          );
+        },
+        child: Container(
+            color: Colors.deepOrangeAccent.shade100.withOpacity(1),
+            alignment: Alignment.centerLeft,
+            child: Text('简单文本')),
+      ),
+    );
+  }
+
+  SimpleSliver get mySliverWidget {
+    return SimpleSliver(
+      color: Colors.teal,
+      extent: 250,
+    );
+  }
+
+  MySimpleSliver get mySliverWidget2 {
+    /// 1. 外加个Builder(底层是StatelessWidget)，它自身没有RenderObject，想要获取renderObject是拿的child的
+    /// 2. 外加个Padding，它有自己的RenderObject，RenderPadding属于RenderBox，不是RenderSliver，所以会报错
+    /// 3. 所以得出结论是组件的renderObject是要是RenderSliver就能放到Viewport的slivers里
+    return MySimpleSliver(
+      child: TextButton(
+        onPressed: () {
+          print('11111111111111111111111111111');
+          // 弹出toast
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('点击了 MySimpleSliver')),
+          );
+        },
+        child: Container(
+          height: 250,
+          color: Colors.purple,
+          alignment: Alignment.center,
+          child: const Text(
+            'MySimpleSliver 示例',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
     );
   }
 
   MySliverPersistentHeader get mySliverPersistentHeader {
-    return MySliverPersistentHeader(
-      maxHeight: 200,
-      minHeight: kTextTabBarHeight,
-    );
-  }
+      return MySliverPersistentHeader(
+        maxHeight: 200,
+        minHeight: kTextTabBarHeight,
+      );
+    }
 
   SliverToBoxAdapter get buildSliverToBoxAdapter {
     return SliverToBoxAdapter(

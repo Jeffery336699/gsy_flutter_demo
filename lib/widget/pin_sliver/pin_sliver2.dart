@@ -13,6 +13,8 @@ class MySliverPersistentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// 最终的renderObject是_RenderSliverPinnedPersistentHeaderForWidgets,
+    /// 一个RenderSliver的renderObject就行
     return SliverPersistentHeader(
       pinned: true,
       delegate: MySliverPersistentHeaderDelegate(

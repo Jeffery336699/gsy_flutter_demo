@@ -135,6 +135,12 @@ dependencies:
 #  wakelock_plus: ^1.1.4
   logger: ^2.6.2
   scoped_model: ^2.0.0
+  # 官方异步增强包
+  async: ^2.11.0
+  # 集合增强包
+  collection: ^1.18.0
+  #
+  meta: ^1.9.0
   shelf: ^1.4.0
   shelf_router: ^1.1.0
   shelf_static: ^1.1.0

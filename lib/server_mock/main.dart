@@ -1,10 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:async/async.dart';
+import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 
 void main() async {
+  // final operation = CancelableOperation.fromFuture(
+  //   Future.delayed(Duration(seconds: 5), () => 'done'),
+  // );
+  // // 中途取消
+  // operation.cancel();
+
+  // const eq = DeepCollectionEquality();
+  // print(eq.equals([1, 2], [1, 2])); // true
+
   // 创建主路由
   final app = Router()
     // GET 请求示例 - 简单文本响应
@@ -360,3 +372,10 @@ Middleware _errorHandler() {
     };
   };
 }
+
+// @immutable
+// class Config {
+//   // 不可修改(meta包下)，同时还提供诸如 @required, @immutable, @sealed, @visibleForTesting 等注解
+//   final String baseUrl;
+//   const Config({required this.baseUrl});
+// }

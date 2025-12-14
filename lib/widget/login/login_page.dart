@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   String? _userNameError;
   String? _pwdError;
   bool _obscurePassword = true;
+  bool _isButtonEnabled = false;
 
   // 模拟登录逻辑，演示不同状态
   void _handleLogin() {
@@ -45,15 +46,9 @@ class _LoginPageState extends State<LoginPage> {
       final pwd = _pwdController.text;
 
       // 场景演示：对应图片中的几种状态
-      if (user.isEmpty) {
-        // 场景：未输入
-        // 实际项目中通常不需要报错，只需按钮置灰，这里为了演示错误状态
-        _userNameError = "请输入用户名";
-      } else if (user == "1") {
-        // 场景：异常提示-1 (用户名密码都提示)
-        _userNameError = "请输入用户名和密码";
-        _pwdError = " "; // 只要不为null，输入框就会变红
-      } else if (user == "123" && pwd == "123") {
+      if (user.isEmpty||pwd.isEmpty) {
+        _pwdError = "请输入用户名和密码";
+      }else if (user == "123" && pwd == "123") {
         // 场景：异常提示-3 (特定错误文案)
         _pwdError = "用户名和密码错误，请重新输入";
       } else {
@@ -63,6 +58,34 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 3. 新增：添加监听器，当输入框内容变化时触发检查
+    _userController.addListener(_checkInputValidity);
+    _pwdController.addListener(_checkInputValidity);
+  }
+
+  @override
+  void dispose() {
+    // 记得销毁监听器，防止内存泄漏
+    _userController.removeListener(_checkInputValidity);
+    _pwdController.removeListener(_checkInputValidity);
+    _userController.dispose();
+    _pwdController.dispose();
+    super.dispose();
+  }
+
+  void _checkInputValidity() {
+    final bool forbidLogin = _userController.text.isEmpty && _pwdController.text.isEmpty;
+    // 只有当状态真正改变时才 setState，避免不必要的重绘
+    if (forbidLogin == _isButtonEnabled) {
+      setState(() {
+        _isButtonEnabled = !forbidLogin;
+      });
+    }
   }
 
   @override
@@ -128,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 40),
 
                       // 登录按钮
-                      _LoginButton(onTap: _handleLogin),
+                      _LoginButton(onTap: _handleLogin,isEnabled: _isButtonEnabled),
 
                       const Spacer(), // 将底部文字推到底部
 
@@ -295,8 +318,8 @@ class _LoginInput extends StatelessWidget {
 /// 登录按钮组件
 class _LoginButton extends StatelessWidget {
   final VoidCallback onTap;
-
-  const _LoginButton({required this.onTap});
+  final bool isEnabled;
+  const _LoginButton({required this.onTap,this.isEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -305,16 +328,20 @@ class _LoginButton extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        gradient: const LinearGradient(
-          colors: [AppColors.primaryBlue, AppColors.primaryBlueDark],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primaryBlue.withOpacity(0.3),
-            offset: const Offset(0, 4),
-            blurRadius: 10,
-          ),
-        ],
+        gradient: isEnabled
+            ? const LinearGradient(colors: [AppColors.primaryBlue, AppColors.primaryBlueDark],)
+            : LinearGradient(
+                colors: [AppColors.primaryBlue.withOpacity(0.5), AppColors.primaryBlueDark.withOpacity(0.5)],
+              ),
+        boxShadow: isEnabled
+            ? [
+                BoxShadow(
+                  color: AppColors.primaryBlue.withOpacity(0.3),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
+                ),
+              ]
+            : null,
       ),
       child: Material(
         color: Colors.transparent,

@@ -23,7 +23,7 @@ class RenderFixedHeaderSliver extends RenderSliverSingleBoxAdapter {
   @override
   void performLayout() {
     final SliverConstraints constraints = this.constraints;
-    logger.w('pin_sliver:${constraints.toJson()}');
+    // logger.w('pin_sliver:${constraints.toJson()}');
     // 1. 布局子组件
     if (child != null) {
       child!.layout(

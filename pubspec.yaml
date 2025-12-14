@@ -145,10 +145,7 @@ dependencies:
   shelf_router: ^1.1.0
   shelf_static: ^1.1.0
   zflutter:
-    git:
-      url: https://github.com/CarGuo/zflutter.git
-      ref: 3f5e569ba96f4c94a5847aad96617f273d88629d
-      path: zflutter/
+    path: package/zflutter
 
 
   vector_math: any

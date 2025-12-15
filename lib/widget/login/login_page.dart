@@ -97,73 +97,70 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: AppColors.backgroundLight,
       body: SingleChildScrollView(
         // 使用 SingleChildScrollView 确保键盘弹出时页面可滚动
-        child: SizedBox(
-          height: size.height, // 撑满全屏高度
-          child: Stack(
-            children: [
-              // 1. 顶部蓝色背景区域
-              const _LoginHeader(),
+        child: Stack(
+          children: [
+            // 1. 顶部蓝色背景区域
+            const _LoginHeader(),
 
-              // 2. 底部白色卡片区域
-              Positioned(
-                top: 260, // 控制白色卡片距离顶部的距离
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 用户名输入
-                      _LoginInput(
-                        label: "用户名",
-                        hint: "请输入用户名",
-                        icon: Icons.person_outline,
-                        controller: _userController,
-                        errorText: _userNameError,
-                      ),
-                      const SizedBox(height: 24),
-
-                      // 密码输入
-                      _LoginInput(
-                        label: "密码",
-                        hint: "请输入密码",
-                        icon: Icons.lock_outline,
-                        controller: _pwdController,
-                        isPassword: true,
-                        obscureText: _obscurePassword,
-                        errorText: _pwdError,
-                        onToggleVisibility: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
-
-                      const SizedBox(height: 40),
-
-                      // 登录按钮
-                      _LoginButton(onTap: _handleLogin,isEnabled: _isButtonEnabled),
-
-                      const Spacer(), // 将底部文字推到底部
-
-                      // 底部 Footer
-                      const _FooterDivider(),
-                      const SizedBox(height: 20), // 底部安全距离
-                    ],
-                  ),
+            // 2. 底部内容区域
+            // 修改为 Stack 布局，通过 margin-top 控制位置，实现重叠且不留白
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 260), // Header高度(300) - 重叠部分(40)
+              constraints: BoxConstraints(
+                minHeight: size.height - 260,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
                 ),
               ),
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 用户名输入
+                  _LoginInput(
+                    label: "用户名",
+                    hint: "请输入用户名",
+                    icon: Icons.person_outline,
+                    controller: _userController,
+                    errorText: _userNameError,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // 密码输入
+                  _LoginInput(
+                    label: "密码",
+                    hint: "请输入密码",
+                    icon: Icons.lock_outline,
+                    controller: _pwdController,
+                    isPassword: true,
+                    obscureText: _obscurePassword,
+                    errorText: _pwdError,
+                    onToggleVisibility: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  // 登录按钮
+                  _LoginButton(onTap: _handleLogin, isEnabled: _isButtonEnabled),
+
+                  const SizedBox(height: 75),
+
+                  // 底部 Footer
+                  const _FooterDivider(),
+                  const SizedBox(height: 20), // 底部安全距离
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

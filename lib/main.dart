@@ -290,6 +290,9 @@ import 'package:gsy_flutter_demo/widget/custom_sliver_list_page.dart'
     deferred as custom_sliver_list_page2
     hide SliverGeometryDebugExtension, SliverConstraintsDebugExtension;
 
+import 'package:gsy_flutter_demo/widget/home/home_page.dart'
+    deferred as home_page;
+
 import 'package:logger/logger.dart';
 // import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -1242,6 +1245,11 @@ Map<String, WidgetBuilder> routers = {
     return ContainerAsyncRouterPage(custom_sliver_list_page2.loadLibrary(),
         (context) {
       return custom_sliver_list_page2.CustomSliverListPage();
+    });
+  },
+  "*首页展示": (context) {
+    return ContainerAsyncRouterPage(home_page.loadLibrary(), (context) {
+      return const home_page.HomePage();
     });
   },
 

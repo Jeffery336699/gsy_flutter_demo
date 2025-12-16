@@ -25,8 +25,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class InventoryHomePage extends StatelessWidget {
+class InventoryHomePage extends StatefulWidget {
   const InventoryHomePage({super.key});
+
+  @override
+  State<InventoryHomePage> createState() => _InventoryHomePageState();
+}
+
+class _InventoryHomePageState extends State<InventoryHomePage> {
+
+  void _handleScanAction() {
+    debugPrint("点击了扫码出库");
+  }
+
+  void _handleViewList() {
+    debugPrint("点击了查看领料单");
+  }
+
+  void _handleLogout() {
+    debugPrint("点击了退出登录");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,18 +85,18 @@ class InventoryHomePage extends StatelessWidget {
                   const SizedBox(height: 17),
 
                   // 2. 主功能卡片 (扫码出库)
-                  const _MainActionCard(),
+                  _MainActionCard(onTap: _handleScanAction),
 
                   const SizedBox(height: 8),
 
                   // 3. 次要菜单 (查看领料单)
-                  const _SecondaryMenuItem(),
+                  _SecondaryMenuItem(onTap: _handleViewList),
 
                   // 使用 Spacer 撑开中间空间，将底部内容推到底部
                   const Spacer(),
 
                   // 4. 底部退出与版权区
-                  const _FooterSection(),
+                  _FooterSection(onLogout: _handleLogout),
 
                   const SizedBox(height: 40),
                 ],
@@ -124,7 +142,9 @@ class _GradientHeaderTitle extends StatelessWidget {
 
 /// 2. 主功能卡片 (蓝色背景)
 class _MainActionCard extends StatelessWidget {
-  const _MainActionCard();
+  final VoidCallback? onTap;
+
+  const _MainActionCard({this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -149,64 +169,71 @@ class _MainActionCard extends StatelessWidget {
           ],
         ),
       ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16,right: 21),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        '扫码出库',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          height: 1.4,
-                          fontWeight: FontWeight.w700,
-                        ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16,right: 21),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '扫码出库',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              height: 1.4,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '对生产计划中的物料进行扫码出库',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              height: 1.4,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '对生产计划中的物料进行扫码出库',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          height: 1.4,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 18),
-                // 右侧扫码图标区域
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(4),
-                    //todo 边框样式
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1,
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.qr_code_scanner_rounded, // 如果需要更像图中的，可能需要用 CustomPaint 或 SVG
-                    color: Colors.white,
-                    size: 42,
-                  ),
+                    const SizedBox(width: 18),
+                    // 右侧扫码图标区域
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(4),
+                        //todo 边框样式
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.qr_code_scanner_rounded, // 如果需要更像图中的，可能需要用 CustomPaint 或 SVG
+                        color: Colors.white,
+                        size: 42,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -214,7 +241,9 @@ class _MainActionCard extends StatelessWidget {
 
 /// 3. 次要菜单项 (白色背景)
 class _SecondaryMenuItem extends StatelessWidget {
-  const _SecondaryMenuItem();
+  final VoidCallback? onTap;
+
+  const _SecondaryMenuItem({this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -234,9 +263,7 @@ class _SecondaryMenuItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // TODO: 处理点击事件
-          },
+          onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -267,7 +294,9 @@ class _SecondaryMenuItem extends StatelessWidget {
 
 /// 4. 底部退出按钮与 Label
 class _FooterSection extends StatelessWidget {
-  const _FooterSection();
+  final VoidCallback? onLogout;
+
+  const _FooterSection({this.onLogout});
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +307,7 @@ class _FooterSection extends StatelessWidget {
           width: 108,
           height: 38,
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: onLogout,
             style: OutlinedButton.styleFrom(
               side:  BorderSide(color: Color(0xFF666666).withOpacity(0.2)),
               shape: RoundedRectangleBorder(
@@ -331,5 +360,3 @@ class _FooterSection extends StatelessWidget {
     );
   }
 }
-
-

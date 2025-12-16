@@ -44,6 +44,8 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 8),
                   _buildRichTextCard(),
                   const SizedBox(height: 8),
+                  _buildTextLineHeightCard(),
+                  const SizedBox(height: 8),
                   _buildBookPageCard(),
                 ],
               ),
@@ -56,11 +58,15 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 8),
                   _buildFoodCard(),
                   const SizedBox(height: 8),
+                  _buildFlutterDescCard(),
+                  const SizedBox(height: 8),
                   _buildSliverListCard(),
                   const SizedBox(height: 8),
                   _buildClipDemoCard(),
                   const SizedBox(height: 8),
                   _buildBoxDecorationCard(),
+                  const SizedBox(height: 8),
+                  _buildGeometricShapesCard(),
                 ],
               ),
             ),
@@ -71,6 +77,8 @@ class HomePage extends StatelessWidget {
                   _buildGuideWindowCard(),
                   const SizedBox(height: 8),
                   _buildRulerCard(),
+                  const SizedBox(height: 8),
+                  _build3DRulerCard(),
                   const SizedBox(height: 8),
                   _buildCatCard(),
                   const SizedBox(height: 8),
@@ -256,6 +264,84 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _buildTextLineHeightCard() {
+    return Container(
+      height: 260,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          const Positioned(
+            top: 12,
+            left: 12,
+            child: Text(
+              '11:12',
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          ),
+          const Positioned(
+            top: 36,
+            left: 12,
+            child: Text(
+              'TextLineHeightDemoPage',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 200,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Item 0',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                  const Divider(height: 16),
+                  const Text('Item 1', style: TextStyle(fontSize: 12)),
+                  const Divider(height: 16),
+                  const Text('Item 2', style: TextStyle(fontSize: 12)),
+                  const Divider(height: 16),
+                  const Text('Item 3', style: TextStyle(fontSize: 12)),
+                  const Divider(height: 16),
+                  const Text('Item 4', style: TextStyle(fontSize: 12)),
+                  const Divider(height: 16),
+                  const Text('Item 5', style: TextStyle(fontSize: 12)),
+                  const Divider(height: 16),
+                  const Text('Item 6', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildBookPageCard() {
     return Container(
       height: 320,
@@ -341,15 +427,30 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Demo',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.red[400],
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: const Text(
+              '按钮',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
             ),
           ),
         ],
@@ -371,26 +472,111 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      child: Stack(
+      child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.grey[800]!, Colors.grey[600]!],
+          Expanded(
+            flex: 2,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.grey[800]!, Colors.grey[600]!],
+                  ),
                 ),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.restaurant,
-                  size: 60,
-                  color: Colors.orange,
+                child: const Center(
+                  child: Icon(
+                    Icons.restaurant,
+                    size: 60,
+                    color: Colors.orange,
+                  ),
                 ),
               ),
             ),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.green[100],
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.green[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.image, color: Colors.white, size: 20),
+                  ),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(
+                      '食谱图片示例',
+                      style: TextStyle(fontSize: 10),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFlutterDescCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.account_circle, color: Colors.blue, size: 30),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                '4:17',
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            "Flutter is Google's portable UI toolkit for crafting beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              height: 1.4,
+            ),
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -556,6 +742,69 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _buildGeometricShapesCard() {
+    return Container(
+      height: 180,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildShapeBox(Colors.blue[700]!),
+                    const SizedBox(width: 8),
+                    _buildShapeBox(Colors.blue[700]!),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _buildShapeBox(Colors.blue[500]!),
+              ],
+            ),
+          ),
+          const Positioned(
+            bottom: 16,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'Item 8',
+                style: TextStyle(fontSize: 12, color: Colors.black54),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShapeBox(Color color) {
+    return Transform.rotate(
+      angle: 0.785398, // 45 degrees
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+    );
+  }
+
   Widget _buildGuideWindowCard() {
     return Container(
       height: 100,
@@ -624,37 +873,106 @@ class HomePage extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ...List.generate(8, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Text(
-                      'CloudGSY${'1' * (index + 1)}',
-                      style: TextStyle(
-                        color: Colors.orange[300],
-                        fontSize: 10 - index * 0.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }),
-              ],
+          // Background text cloud
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                runAlignment: WrapAlignment.center,
+                spacing: 4,
+                runSpacing: 2,
+                children: [
+                  _buildCloudText('CloudGSY', 10, Colors.orange[200]!),
+                  _buildCloudText('CloudGSY11', 8, Colors.orange[300]!),
+                  _buildCloudText('CloudGSY111', 9, Colors.orange[200]!),
+                  _buildCloudText('CloudGSY1111', 7, Colors.orange[400]!),
+                  _buildCloudText('CloudGSY11111', 11, Colors.orange[200]!),
+                  _buildCloudText('CloudGSY111111', 8, Colors.orange[300]!),
+                  _buildCloudText('CloudGSY1111111', 9, Colors.orange[200]!),
+                  _buildCloudText('CloudGSY11111111', 7, Colors.orange[400]!),
+                  _buildCloudText('CloudGSY88888888', 6, Colors.red[300]!),
+                  _buildCloudText('CloudGSY99', 8, Colors.orange[200]!),
+                  _buildCloudText('CloudGSY722', 7, Colors.orange[300]!),
+                ],
+              ),
             ),
           ),
           const Positioned(
-            top: 80,
+            top: 85,
             left: 0,
             right: 0,
             child: Center(
               child: Text(
                 'CloudGSY55',
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black45,
+                      offset: Offset(1, 1),
+                      blurRadius: 2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCloudText(String text, double size, Color color) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: color,
+        fontSize: size,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  Widget _build3DRulerCard() {
+    return Container(
+      height: 160,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF90EE90), Color(0xFFFFEB3B)],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Center(
+            child: Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateX(0.3)
+                ..rotateY(-0.4),
+              alignment: Alignment.center,
+              child: Container(
+                width: 100,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.blue[700],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: CustomPaint(
+                  painter: _RulerPainter(),
                 ),
               ),
             ),
@@ -1058,6 +1376,33 @@ class _YellowDiagonalPainter extends CustomPainter {
     );
     textPainter.layout();
     textPainter.paint(canvas, Offset(20, size.height - 100));
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _RulerPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 1.5;
+
+    // Draw ruler marks
+    for (int i = 0; i < 10; i++) {
+      final x = (i + 1) * size.width / 11;
+      final y1 = size.height * 0.3;
+      final y2 = i % 2 == 0 ? size.height * 0.5 : size.height * 0.4;
+      canvas.drawLine(Offset(x, y1), Offset(x, y2), paint);
+    }
+
+    // Draw dots
+    for (int i = 0; i < 8; i++) {
+      final x = (i + 1.5) * size.width / 10;
+      final y = size.height * 0.7;
+      canvas.drawCircle(Offset(x, y), 2, paint..style = PaintingStyle.fill);
+    }
   }
 
   @override

@@ -1,7 +1,12 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  // Constants
+  static const String _catImagePath = 'static/gsy_cat.png';
+  static const double _rotationAngle45 = math.pi / 4;
 
   @override
   Widget build(BuildContext context) {
@@ -727,7 +732,7 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
-                image: AssetImage('static/gsy_cat.png'),
+                image: AssetImage(_catImagePath),
                 fit: BoxFit.cover,
               ),
             ),
@@ -793,7 +798,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildShapeBox(Color color) {
     return Transform.rotate(
-      angle: 0.785398, // 45 degrees
+      angle: _rotationAngle45,
       child: Container(
         width: 40,
         height: 40,
@@ -1005,7 +1010,7 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: const DecorationImage(
-                image: AssetImage('static/gsy_cat.png'),
+                image: AssetImage(_catImagePath),
                 fit: BoxFit.cover,
               ),
             ),
@@ -1385,23 +1390,28 @@ class _YellowDiagonalPainter extends CustomPainter {
 class _RulerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final linePaint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 1.5;
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
 
     // Draw ruler marks
     for (int i = 0; i < 10; i++) {
       final x = (i + 1) * size.width / 11;
       final y1 = size.height * 0.3;
       final y2 = i % 2 == 0 ? size.height * 0.5 : size.height * 0.4;
-      canvas.drawLine(Offset(x, y1), Offset(x, y2), paint);
+      canvas.drawLine(Offset(x, y1), Offset(x, y2), linePaint);
     }
 
     // Draw dots
+    final dotPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    
     for (int i = 0; i < 8; i++) {
       final x = (i + 1.5) * size.width / 10;
       final y = size.height * 0.7;
-      canvas.drawCircle(Offset(x, y), 2, paint..style = PaintingStyle.fill);
+      canvas.drawCircle(Offset(x, y), 2, dotPaint);
     }
   }
 
